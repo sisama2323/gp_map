@@ -1,0 +1,22 @@
+rviz_file: ~/map2_ws/src/ifom_v1/gp_map/config/3D_cabinet.rviz
+gp:
+  sensor_max_range: 7
+  xmin: -7.48
+  ymin: -2.47
+  zmin: -0.21
+  xmax: 1.80
+  ymax: 5.08
+  zmax: 0.61
+  xres: 0.1
+  yres: 0.1
+  zres: 0.1
+  iter: 80
+  frame_id: /world
+  kernel_sigma_x: 0.15
+  kernel_sigma_y: 0.15
+  kernel_sigma_z: 0.15
+  free_step_size: 5
+  kernel_radius: 0.05
+  thresh: 0.01
+  delta: 5
+  noise_cov: 0.1

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ISO-8859-15"?>
+<launch>
+  <arg name="high_res_rgb" default="false"/>
+  <arg name="cloud_input_ns" value="camera/rgb"/>
+
+  <arg name="rosbag_path" default="/home/parallels/map2_ws/src/ros_bag/rgbd_dataset_freiburg3_large_cabinet" />
+  <arg name="rosbag_delay" default="0"/>
+  <arg name="speed" default="1"/>
+
+  <!-- play the rosbag file -->
+  <node pkg="rosbag" type="play" name="player" output="screen" args="-d $(arg rosbag_delay) --clock $(arg rosbag_path).bag -r $(arg speed)"/>
+
+  <!-- Nodelet manager for this pipeline -->
+  <node pkg="nodelet" type="nodelet" args="manager" name="record_player_manager" output="screen"/>
+  
+  <!-- downsample -->
+  <node pkg="nodelet" type="nodelet" name="downsample_rgb"
+        args="load image_proc/crop_decimate record_player_manager --no-bond">
+    <param name="decimation_x" value="2"/>
+    <param name="decimation_y" value="2"/>
+    <param name="width" value="640"/>
+    <param name="height" value="480"/>
+    <remap from="camera_out/camera_info" to="/camera/downsample/camera_info"/>
+    <remap from="camera_out/image_raw" to="/camera/downsample/depth"/>
+    <remap from="camera/image_raw" to="/camera/depth/image"/>
+    <remap from="camera/camera_info" to="/camera/depth/camera_info"/>
+  </node>
+
+  <!-- Convert it into a point cloud -->
+  <node pkg="nodelet" type="nodelet" name="cloudify" args="load depth_image_proc/point_cloud_xyz record_player_manager --no-bond">
+    <remap from="image_rect" to="/camera/downsample/depth"/>
+    <remap from="camera_info" to="/camera/downsample/camera_info"/>
+    <remap from="points" to="/laser/cloud"/>
+  </node>
+    
+</launch>
+

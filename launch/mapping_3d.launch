@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-15"?>
+<launch>      
+  <arg name="show_map" default="true" />
+  <arg name="debug" default="false"/>
+  <arg name="save_file" default="true"/>
+  <arg name="file_name" default="$(find gp_map)/data/ifom_time.txt"/>
+  <arg name="param_file" default="$(find gp_map)/param/simulation.yaml"/>
+  <arg name="rviz_file" default="$(find gp_map)/config/3D.rviz"/>
+
+  <!--read from yaml file-->
+  <rosparam command="load" file="$(arg param_file)" />
+
+  <!-- bresenham -->
+  <group ns="gp">
+    <param name="debug" value="$(arg debug)"/>
+    <param name="save_file" value="$(arg save_file)"/>
+    <param name="file_name" value="$(arg file_name)"/>
+
+    <!-- waitkey -->
+    <node name="key_wait" pkg="gp_map" type="key_wait" output="screen" >
+      <remap from="chatter" to="/key"/>
+    </node>
+
+    <node name="if_filter_3d" pkg="gp_map" type="run_ifom" output="screen">
+      <remap from="cloud" to="/laser/cloud"/>
+      <remap from="/chatter" to="/key"/>
+    </node>
+  </group>
+
+  <!-- launch map -->
+  <group if="$(arg show_map)">
+      <node pkg="rviz" type="rviz" name="rviz_map" args="-d $(arg rviz_file)"/>
+  </group>
+
+</launch>

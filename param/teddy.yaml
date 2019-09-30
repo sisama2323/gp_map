@@ -1,0 +1,22 @@
+rviz_file: ~/map2_ws/src/ifom_v1/gp_map/config/3D_teddy.rviz
+gp:
+  sensor_max_range: 7
+  xmin: -5.29
+  ymin: -5.30
+  zmin: -1.25
+  xmax: 5.20
+  ymax: 5.20
+  zmax: 5.24
+  xres: 0.1
+  yres: 0.1
+  zres: 0.1
+  iter: 80
+  frame_id: /world
+  kernel_sigma_x: 0.15
+  kernel_sigma_y: 0.15
+  kernel_sigma_z: 0.15
+  free_step_size: 5
+  kernel_radius: 0.05
+  thresh: 0.01
+  delta: 5
+  noise_cov: 0.1

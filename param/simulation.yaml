@@ -1,0 +1,26 @@
+rviz_file: ~/map2_ws/src/ifom_v1/gp_map/config/simulation.rviz
+gp:
+  sensor_max_range: 13
+  xmin: -11.29
+  ymin: -12.30
+  zmin: -0.25
+  xmax: 74.20
+  ymax: 19.20
+  zmax: 6.24
+  xres: 0.5
+  yres: 0.5
+  zres: 0.5
+  iter: 250
+  frame_id: /map
+  # kernel width cannot be too large
+  kernel_sigma_x: 0.1
+  kernel_sigma_y: 0.1
+  kernel_sigma_z: 0.3
+  free_step_size: 10
+  kernel_radius: 0.5
+  # Recover full map threshold
+  thresh: 0.05
+  # p(y=1)
+  delta: 1
+  # xi = xi + 1/noise_cov
+  noise_cov: 0.1

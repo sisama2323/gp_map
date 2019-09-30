@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ISO-8859-15"?>
+<launch>
+  <arg name="topic_name" default="/full_map"/>
+  <arg name="map_dir" default="/home/parallels/map2_ws/src/ifom_v1/gp_map/src/dae_grid/fla_warehouse1_05/fla_warehouse1_05.cfg"/>
+
+  <param name="xmin" value="-11.29"/>
+  <param name="ymin" value="-12.30"/>
+  <param name="zmin" value="-0.25"/>
+  <param name="resolution" type="double" value="0.5" />
+
+  <arg name="load_ground_truth" default="true"/>
+  <group if="$(arg load_ground_truth)">
+    <param name="map_dir" value="$(arg map_dir)"/>
+    <node name="load_map" pkg="gp_map" type="read_cfg" output="screen" />
+  </group>
+
+  <!-- Convert it into a point cloud -->
+  <node name="accuracy" pkg="gp_map" type="accuracy.py" output="screen">
+    <remap from="truth_map" to="/truth_map"/>
+    <remap from="map1_topic" to="$(arg topic_name)"/>
+  </node>
+    
+</launch>
+
